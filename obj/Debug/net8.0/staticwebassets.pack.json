@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "d:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VisitAndAuthen.bundle.scp.css",
+      "PackagePath": "staticwebassets\\VisitAndAuthen.bundle.scp.css"
+    },
+    {
+      "Id": "d:\\VisitAndAuthen\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "d:\\VisitAndAuthen\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "d:\\VisitAndAuthen\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "d:\\VisitAndAuthen\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.VisitAndAuthen.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.VisitAndAuthen.props",
+      "PackagePath": "build\\VisitAndAuthen.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.VisitAndAuthen.props",
+      "PackagePath": "buildMultiTargeting\\VisitAndAuthen.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.VisitAndAuthen.props",
+      "PackagePath": "buildTransitive\\VisitAndAuthen.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

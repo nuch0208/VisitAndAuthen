@@ -1,0 +1,115 @@
+@page "/authen"
+@using System.Text.Json.Nodes
+@using VisitAndAuthen.Models
+@inject HttpClient http
+
+
+<div class="row">
+    <div class="col-lg-8">
+        <h1 class="mb-5">Edit Client</h1>
+
+        @if (Patient == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+             <div class="row mb-3">
+                <label class="col-md-4 col-form-label">เลขประจำตัวประชาชน</label>
+                <div class="col-md-8">
+                    <input class="form-control-plaintext" @bind="PatientDto.Cid">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">ชื่อ</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="PatientDto.Fname">
+                    <span class="text-danger">@Errors["FirstName"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">นามสกุล</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="PatientDto.Lname">
+                    <span class="text-danger">@Errors["LastName"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">วันเกิด</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="PatientDto.Birthday">
+                    <span class="text-danger">@Errors["Email"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">วันเกิด</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="kskdepartmentDto.Department">
+                    <span class="text-danger">@Errors["Email"]?[0]</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="offset-md-4 col-md-4 d-grid">
+                    <button class="btn btn-primary" >Submit</button>
+                </div>
+                <div class="col-md-4 d-grid">
+                    <a class="btn btn-outline-primary" href="/Clients">Cancel</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    
+    @* [Parameter]
+    public int Id { set; get; } *@
+    public Patient? Patient = null;
+    public PatientDto PatientDto { set; get; } = new();
+    public Kskdepartment? kskdepartment = null;
+    public KskdepartmentDto kskdepartmentDto { set; get; } = new();
+    public JsonNode Errors { set; get;} = new JsonObject();
+
+     protected override async Task OnInitializedAsync()
+    {  
+        
+        Patient = await http.GetFromJsonAsync<Patient>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
+        PatientDto.Cid = Patient.Cid;
+
+        Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/api/Hos/" + PatientDto.Cid);
+        PatientDto.Hn = Patient?.Hn ?? "";
+        PatientDto.Fname = Patient?.Fname ?? "";
+        PatientDto.Lname = Patient?.Lname ?? "";
+        PatientDto.Birthday = Patient?.Birthday;
+
+        kskdepartment = await http.GetFromJsonAsync<Kskdepartment>("http://localhost:5200/api/Hos/Dept?Hn=" + PatientDto.Hn);
+        kskdepartmentDto.Department = kskdepartment?.Department ?? "";
+        
+    }
+    @* protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/api/Hos/" + PatientDto.Cid);
+            PatientDto.Hn = Patient?.Hn ?? "";
+            PatientDto.Fname = Patient?.Fname ?? "";
+            PatientDto.Lname = Patient?.Lname ?? "";
+            PatientDto.Birthday = Patient?.Birthday;
+
+            kskdepartment = await http.GetFromJsonAsync<Kskdepartment>("http://localhost:5200/api/Hos/Dept?Hn=" + PatientDto.Hn);
+            kskdepartmentDto.Department = kskdepartment?.Department ?? "";
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Exception : " + ex.Message);
+        }
+    } *@
+
+}
