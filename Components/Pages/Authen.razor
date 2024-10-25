@@ -70,7 +70,7 @@
     public Patient? Patient { get; set; }
     public PatientDto PatientDto { set; get; } = new();
     public Kskdepartment? kskdepartment {get; set;} = new();
-    public KskdepartmentDto kskdepartmentDto = new KskdepartmentDto();
+    public KskdepartmentDto kskdepartmentDto { set; get; } = new();
     public JsonNode Errors { set; get;} = new JsonObject();
     private Cid2 client = new Cid2();
 
