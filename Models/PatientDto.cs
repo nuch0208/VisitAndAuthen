@@ -206,4 +206,5 @@ public partial class PatientDto
     public DateOnly? CardDestroyDate { get; set; }
 
     public string? G6pd { get; set; }
+    public string PtName => $"{Pname} {Fname} {Lname}";
 }

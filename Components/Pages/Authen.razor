@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-lg-8">
-        <h1 class="mb-5">Edit Client</h1>
+        <h1 class="mb-5">Authen</h1>
 
         @if (Patient == null)
         {
@@ -25,7 +25,6 @@
                 <label class="col-md-4 col-form-label">ชื่อ</label>
                 <div class="col-md-8">
                     <input class="form-control" @bind="PatientDto.Fname">
-                    <span class="text-danger">@Errors["FirstName"]?[0]</span>
                 </div>
             </div>
 
@@ -33,23 +32,20 @@
                 <label class="col-md-4 col-form-label">นามสกุล</label>
                 <div class="col-md-8">
                     <input class="form-control" @bind="PatientDto.Lname">
-                    <span class="text-danger">@Errors["LastName"]?[0]</span>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <label class="col-md-4 col-form-label">วันเกิด</label>
                 <div class="col-md-8">
-                    <input class="form-control" @bind="PatientDto.Birthday">
-                    <span class="text-danger">@Errors["Email"]?[0]</span>
+                    <input type="date" class="form-control" @bind="PatientDto.Birthday">
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-md-4 col-form-label">วันเกิด</label>
+                <label class="col-md-4 col-form-label">นัดรับบริการที่ : </label>
                 <div class="col-md-8">
                     <input class="form-control" @bind="kskdepartmentDto.Department">
-                    <span class="text-danger">@Errors["Email"]?[0]</span>
                 </div>
             </div>
 
@@ -68,29 +64,39 @@
 
 @code {
     
-    @* [Parameter]
-    public int Id { set; get; } *@
-    public Patient? Patient = null;
+    [Parameter]
+    public string Id { set; get; }
+    public string Hn { set; get; }
+    public Patient? Patient { get; set; }
     public PatientDto PatientDto { set; get; } = new();
-    public Kskdepartment? kskdepartment = null;
-    public KskdepartmentDto kskdepartmentDto { set; get; } = new();
+    public Kskdepartment? kskdepartment {get; set;} = new();
+    public KskdepartmentDto kskdepartmentDto = new KskdepartmentDto();
     public JsonNode Errors { set; get;} = new JsonObject();
+    private Cid2 client = new Cid2();
 
-     protected override async Task OnInitializedAsync()
-    {  
-        
-        Patient = await http.GetFromJsonAsync<Patient>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
-        PatientDto.Cid = Patient.Cid;
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            client = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
+            PatientDto.Cid = client.pid;
+            Id = client.pid;
 
-        Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/api/Hos/" + PatientDto.Cid);
-        PatientDto.Hn = Patient?.Hn ?? "";
-        PatientDto.Fname = Patient?.Fname ?? "";
-        PatientDto.Lname = Patient?.Lname ?? "";
-        PatientDto.Birthday = Patient?.Birthday;
+            Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/api/Hos/" + Id);
+            PatientDto.Hn = Patient?.Hn ?? "";
+            PatientDto.Fname = Patient?.Fname ?? "";
+            PatientDto.Lname = Patient?.Lname ?? "";
+            PatientDto.Birthday = Patient?.Birthday;
+            Hn = Patient?.Hn ?? "";
 
-        kskdepartment = await http.GetFromJsonAsync<Kskdepartment>("http://localhost:5200/api/Hos/Dept?Hn=" + PatientDto.Hn);
-        kskdepartmentDto.Department = kskdepartment?.Department ?? "";
-        
+            kskdepartment = await http.GetFromJsonAsync<Kskdepartment>("http://localhost:5200/api/Hos/Dept?Hn=" + Hn);
+            kskdepartmentDto.Department = kskdepartment?.Department ?? "";
+        }
+        catch (Exception ex)
+        {
+            // Log or display the error message
+            Console.WriteLine("Error occurred: " + ex.Message);
+        }
     }
     @* protected override async Task OnParametersSetAsync()
     {

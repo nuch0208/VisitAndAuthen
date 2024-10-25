@@ -31,3 +31,4 @@ D:\VisitAndAuthen\obj\Debug\net8.0\refint\VisitAndAuthen.dll
 D:\VisitAndAuthen\obj\Debug\net8.0\VisitAndAuthen.pdb
 D:\VisitAndAuthen\obj\Debug\net8.0\VisitAndAuthen.genruntimeconfig.cache
 D:\VisitAndAuthen\obj\Debug\net8.0\ref\VisitAndAuthen.dll
+D:\VisitAndAuthen\obj\Debug\net8.0\VisitAndAuthen.sourcelink.json

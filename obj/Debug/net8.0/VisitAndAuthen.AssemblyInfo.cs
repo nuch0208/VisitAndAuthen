@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VisitAndAuthen")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+efe2daea6866ef1eb702e3d52053c942a661a090")]
 [assembly: System.Reflection.AssemblyProductAttribute("VisitAndAuthen")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VisitAndAuthen")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

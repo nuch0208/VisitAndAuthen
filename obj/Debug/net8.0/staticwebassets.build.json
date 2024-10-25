@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "UaI/19Z5i5COQZJLH+p/26cFFQgi4QFI+r2S3pCx4FY=",
+  "Hash": "SbeUVbbqn7rsoiWagVbFtb7XoDyADo/UD4NWOnoXxpY=",
   "Source": "VisitAndAuthen",
   "BasePath": "_content/VisitAndAuthen",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "VisitAndAuthen\\wwwroot",
       "Source": "VisitAndAuthen",
-      "ContentRoot": "d:\\VisitAndAuthen\\wwwroot\\",
+      "ContentRoot": "D:\\VisitAndAuthen\\wwwroot\\",
       "BasePath": "_content/VisitAndAuthen",
       "Pattern": "**"
     }
@@ -55,10 +55,10 @@
       "OriginalItemSpec": "C:\\Users\\Administrator\\.nuget\\packages\\blazored.typeahead\\4.7.0\\staticwebassets\\blazored-typeahead.js"
     },
     {
-      "Identity": "d:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VisitAndAuthen.styles.css",
+      "Identity": "D:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VisitAndAuthen.styles.css",
       "SourceId": "VisitAndAuthen",
       "SourceType": "Computed",
-      "ContentRoot": "d:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "D:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/VisitAndAuthen",
       "RelativePath": "VisitAndAuthen.styles.css",
       "AssetKind": "All",
@@ -71,13 +71,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "d:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VisitAndAuthen.styles.css"
+      "OriginalItemSpec": "D:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\bundle\\VisitAndAuthen.styles.css"
     },
     {
-      "Identity": "d:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VisitAndAuthen.bundle.scp.css",
+      "Identity": "D:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VisitAndAuthen.bundle.scp.css",
       "SourceId": "VisitAndAuthen",
       "SourceType": "Computed",
-      "ContentRoot": "d:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "D:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/VisitAndAuthen",
       "RelativePath": "VisitAndAuthen.bundle.scp.css",
       "AssetKind": "All",
@@ -90,13 +90,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "d:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VisitAndAuthen.bundle.scp.css"
+      "OriginalItemSpec": "D:\\VisitAndAuthen\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\VisitAndAuthen.bundle.scp.css"
     },
     {
-      "Identity": "d:\\VisitAndAuthen\\wwwroot\\app.css",
+      "Identity": "D:\\VisitAndAuthen\\wwwroot\\app.css",
       "SourceId": "VisitAndAuthen",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\VisitAndAuthen\\wwwroot\\",
+      "ContentRoot": "D:\\VisitAndAuthen\\wwwroot\\",
       "BasePath": "_content/VisitAndAuthen",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "d:\\VisitAndAuthen\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "D:\\VisitAndAuthen\\wwwroot\\bootstrap\\bootstrap.min.css",
       "SourceId": "VisitAndAuthen",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\VisitAndAuthen\\wwwroot\\",
+      "ContentRoot": "D:\\VisitAndAuthen\\wwwroot\\",
       "BasePath": "_content/VisitAndAuthen",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -131,10 +131,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "d:\\VisitAndAuthen\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "D:\\VisitAndAuthen\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "VisitAndAuthen",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\VisitAndAuthen\\wwwroot\\",
+      "ContentRoot": "D:\\VisitAndAuthen\\wwwroot\\",
       "BasePath": "_content/VisitAndAuthen",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -150,10 +150,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "d:\\VisitAndAuthen\\wwwroot\\favicon.png",
+      "Identity": "D:\\VisitAndAuthen\\wwwroot\\favicon.png",
       "SourceId": "VisitAndAuthen",
       "SourceType": "Discovered",
-      "ContentRoot": "d:\\VisitAndAuthen\\wwwroot\\",
+      "ContentRoot": "D:\\VisitAndAuthen\\wwwroot\\",
       "BasePath": "_content/VisitAndAuthen",
       "RelativePath": "favicon.png",
       "AssetKind": "All",
