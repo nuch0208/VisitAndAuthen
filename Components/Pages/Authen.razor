@@ -8,7 +8,7 @@
     <div class="col-lg-8">
         <h1 class="mb-5">Authen</h1>
 
-        @if (Patient == null)
+        @if (AuthenClaim == null)
         {
             <p><em>Loading...</em></p>
         }
@@ -20,14 +20,18 @@
                     <input class="form-control-plaintext" @bind="PatientDto.Cid">
                 </div>
             </div>
-
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">HN : </label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="PatientDto.Hn">
+                </div>
+            </div>
             <div class="row mb-3">
                 <label class="col-md-4 col-form-label">ชื่อ</label>
                 <div class="col-md-8">
                     <input class="form-control" @bind="PatientDto.Fname">
                 </div>
             </div>
-
             <div class="row mb-3">
                 <label class="col-md-4 col-form-label">นามสกุล</label>
                 <div class="col-md-8">
@@ -36,19 +40,45 @@
             </div>
 
             <div class="row mb-3">
-                <label class="col-md-4 col-form-label">วันเกิด</label>
+                <label class="col-md-4 col-form-label">วันที่รับบริการ</label>
                 <div class="col-md-8">
-                    <input type="date" class="form-control" @bind="PatientDto.Birthday">
+                    <input type="date" class="form-control" @bind="PatientDto.DateOnly">
                 </div>
             </div>
 
             <div class="row mb-3">
+                <label class="col-md-4 col-form-label">เวลา : </label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="PatientDto.TimeOnly">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">ยืนยันตัวตน (Authen Code)</label>
+                <div class="col-md-8">
+                    <input  class="form-control" @bind="AuthenClaimDto.ClaimCode">
+                </div>
+            </div>
+            
+            <div class="row mb-3">
                 <label class="col-md-4 col-form-label">นัดรับบริการที่ : </label>
                 <div class="col-md-8">
-                    <input class="form-control" @bind="kskdepartmentDto.Department">
+                    <input class="form-control" @bind="PatientDto.Department">
                 </div>
             </div>
 
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">แพทย์ผู้นัด</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="PatientDto.DoctorName">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">สิทธิ์การรักษา</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="AuthenClaimDto.ClaimType">
+                </div>
+            </div>
 
             <div class="row">
                 <div class="offset-md-4 col-md-4 d-grid">
@@ -64,33 +94,60 @@
 
 @code {
     
-    [Parameter]
-    public string Id { set; get; }
-    public string Hn { set; get; }
+    @* [Parameter] *@
+    @* public string Id { set; get; } *@
+    @* public string Hn { set; get; } *@
+    public string Id = "1749900459221";
     public Patient? Patient { get; set; }
     public PatientDto PatientDto { set; get; } = new();
+    public AuthenClaim? AuthenClaim { get; set; }
+    public AuthenClaimDto AuthenClaimDto { set; get; } = new();
     public Kskdepartment? kskdepartment {get; set;} = new();
     public KskdepartmentDto kskdepartmentDto { set; get; } = new();
     public JsonNode Errors { set; get;} = new JsonObject();
     private Cid2 client = new Cid2();
+    
+
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            client = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
+            @* client = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
             PatientDto.Cid = client.pid;
-            Id = client.pid;
+            Id = client.pid; *@
 
-            Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/api/Hos/" + Id);
+            AuthenClaim = await http.GetFromJsonAsync<AuthenClaim>("http://localhost:8189/api/nhso-service/latest-authen-code/" + Id);
+            AuthenClaimDto.ClaimCode = AuthenClaim?.ClaimCode ?? "";
+            AuthenClaimDto.ClaimType = AuthenClaim?.ClaimType ?? "";
+            AuthenClaimDto.CheckDate = AuthenClaim.CheckDate;
+            AuthenClaimDto.ClaimDateTime = AuthenClaim.ClaimDateTime;
+            AuthenClaimDto.Hcode = AuthenClaim?.Hcode ??"";           
+
+            Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/app/" + Id);
+                PatientDto.Fname = Patient?.Fname ?? ""; 
+                PatientDto.Lname = Patient?.Lname ?? "";
+                PatientDto.DoctorName = Patient?.DoctorName ?? "";
+                PatientDto.Vstdate = Patient?.Vstdate;
+                PatientDto.NextDate = Patient?.NextDate;
+                PatientDto.NextTime = Patient?.NextTime;
+                PatientDto.Vn = Patient?.Vn ?? "";
+                PatientDto.Department = Patient?.Department ?? "";
+                PatientDto.Hometel = Patient?.Hometel ?? "";
+                PatientDto.Hn = Patient?.Hn ?? "";
+          
+            
+
+            
+            @* Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/api/Hos/" + Id);
             PatientDto.Hn = Patient?.Hn ?? "";
             PatientDto.Fname = Patient?.Fname ?? "";
-            PatientDto.Lname = Patient?.Lname ?? "";
-            PatientDto.Birthday = Patient?.Birthday;
-            Hn = Patient?.Hn ?? "";
+            PatientDto.Lname = Patient?.Lname ?? ""; *@
+            @* PatientDto.Birthday = Patient?.Birthday;
+            Hn = Patient?.Hn ?? ""; *@
 
-            kskdepartment = await http.GetFromJsonAsync<Kskdepartment>("http://localhost:5200/api/Hos/Dept?Hn=" + Hn);
-            kskdepartmentDto.Department = kskdepartment?.Department ?? "";
+            @* kskdepartment = await http.GetFromJsonAsync<Kskdepartment>("http://localhost:5200/api/Hos/Dept?Hn=" + Hn);
+            kskdepartmentDto.Department = kskdepartment?.Department ?? ""; *@ 
         }
         catch (Exception ex)
         {
@@ -98,24 +155,4 @@
             Console.WriteLine("Error occurred: " + ex.Message);
         }
     }
-    @* protected override async Task OnParametersSetAsync()
-    {
-        try
-        {
-            Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/api/Hos/" + PatientDto.Cid);
-            PatientDto.Hn = Patient?.Hn ?? "";
-            PatientDto.Fname = Patient?.Fname ?? "";
-            PatientDto.Lname = Patient?.Lname ?? "";
-            PatientDto.Birthday = Patient?.Birthday;
-
-            kskdepartment = await http.GetFromJsonAsync<Kskdepartment>("http://localhost:5200/api/Hos/Dept?Hn=" + PatientDto.Hn);
-            kskdepartmentDto.Department = kskdepartment?.Department ?? "";
-
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Exception : " + ex.Message);
-        }
-    } *@
-
 }
