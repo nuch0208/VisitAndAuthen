@@ -38,6 +38,12 @@
                     <input class="form-control" @bind="PatientDto.Lname">
                 </div>
             </div>
+             <div class="row mb-3">
+                <label class="col-md-4 col-form-label">เบอร์โทรศัพท์</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="PatientDto.Hometel">
+                </div>
+            </div>
 
             <div class="row mb-3">
                 <label class="col-md-4 col-form-label">วันที่รับบริการ</label>
@@ -53,9 +59,9 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label class="col-md-4 col-form-label">ยืนยันตัวตน (Authen Code)</label>
+                <label class="col-md-4 col-form-label">Claim type</label>
                 <div class="col-md-8">
-                    <input  class="form-control" @bind="AuthenClaimDto.ClaimCode">
+                    <input  class="form-control" @bind="AuthenClaimDto.ClaimType">
                 </div>
             </div>
             
@@ -82,7 +88,7 @@
             <div class="row mb-3">
                 <label class="col-md-4 col-form-label">โรงพยาบาลหลัก</label>
                 <div class="col-md-8">
-                    <input class="form-control" @bind="PttypenoDto.Hname">
+                    <input class="form-control" @bind="PttypenoDto.Hospmain">
                 </div>
             </div>
 
@@ -113,7 +119,7 @@
     @* public Kskdepartment? kskdepartment {get; set;} = new();
     public KskdepartmentDto kskdepartmentDto { set; get; } = new(); *@
     public JsonNode Errors { set; get;} = new JsonObject();
-    private Cid2 client = new Cid2();
+    private Cid2 Cid2 = new Cid2();
     
 
 
@@ -121,16 +127,17 @@
     {
         try
         {
-            @* client = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
-            PatientDto.Cid = client.pid;
-            Id = client.pid; *@
+            @* Cid2 = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
+                PatientDto.Cid = Cid2.pid;
+                PatientDto.correlationId = Cid2.correlationId;
+                Id = Cid2.pid; *@
 
             AuthenClaim = await http.GetFromJsonAsync<AuthenClaim>("http://localhost:8189/api/nhso-service/latest-authen-code/" + Id);
-            AuthenClaimDto.ClaimCode = AuthenClaim?.ClaimCode ?? "";
-            AuthenClaimDto.ClaimType = AuthenClaim?.ClaimType ?? "";
-            AuthenClaimDto.CheckDate = AuthenClaim.CheckDate;
-            AuthenClaimDto.ClaimDateTime = AuthenClaim.ClaimDateTime;
-            AuthenClaimDto.Hcode = AuthenClaim?.Hcode ??"";           
+                AuthenClaimDto.ClaimCode = AuthenClaim?.ClaimCode ?? "";
+                AuthenClaimDto.ClaimType = AuthenClaim?.ClaimType ?? "";
+                AuthenClaimDto.CheckDate = AuthenClaim.CheckDate;
+                AuthenClaimDto.ClaimDateTime = AuthenClaim.ClaimDateTime;
+                AuthenClaimDto.Hcode = AuthenClaim?.Hcode ??"";           
 
             Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/app/" + Id);
                 PatientDto.Fname = Patient?.Fname ?? ""; 
@@ -150,6 +157,7 @@
                 PttypenoDto.Hn = Pttypeno?.Hn ?? "";
                 PttypenoDto.Pttype = Pttypeno?.Pttype ?? "";
                 PttypenoDto.Name = Pttypeno?.Name ?? "";
+                PttypenoDto.Hospmain = Pttypeno?.Hospmain ?? "";
                 PttypenoDto.Begindate = Pttypeno?.Begindate;
                 PttypenoDto.Expiredate = Pttypeno?.Expiredate;
                 PttypenoDto.Hospmain = Pttypeno?.Hospmain ?? "";

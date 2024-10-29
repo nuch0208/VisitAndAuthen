@@ -20,6 +20,7 @@ public partial class PatientDto
     public string? Lname { get; set; }
     public string? Cid { get; set; }
     public string? Hometel { get; set; }
+    public string correlationId { get; set; }
     public DateOnly DateOnly { get; set; } = DateOnly.FromDateTime(DateTime.Now); 
     public TimeOnly TimeOnly { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
     public string? PtName => $"{Pname} {Fname} {Lname}";
