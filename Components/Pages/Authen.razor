@@ -76,7 +76,13 @@
             <div class="row mb-3">
                 <label class="col-md-4 col-form-label">สิทธิ์การรักษา</label>
                 <div class="col-md-8">
-                    <input class="form-control" @bind="AuthenClaimDto.ClaimType">
+                    <input class="form-control" @bind="PttypenoDto.Name">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">โรงพยาบาลหลัก</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="PttypenoDto.Hname">
                 </div>
             </div>
 
@@ -96,14 +102,16 @@
     
     @* [Parameter] *@
     @* public string Id { set; get; } *@
-    @* public string Hn { set; get; } *@
-    public string Id = "1749900459221";
+    public string Hn { set; get; } 
+    public string Id = "1749900786027";
     public Patient? Patient { get; set; }
     public PatientDto PatientDto { set; get; } = new();
     public AuthenClaim? AuthenClaim { get; set; }
     public AuthenClaimDto AuthenClaimDto { set; get; } = new();
-    public Kskdepartment? kskdepartment {get; set;} = new();
-    public KskdepartmentDto kskdepartmentDto { set; get; } = new();
+    public Pttypeno? Pttypeno { get; set; }
+    public PttypenoDto PttypenoDto { set; get; } = new();
+    @* public Kskdepartment? kskdepartment {get; set;} = new();
+    public KskdepartmentDto kskdepartmentDto { set; get; } = new(); *@
     public JsonNode Errors { set; get;} = new JsonObject();
     private Cid2 client = new Cid2();
     
@@ -135,8 +143,19 @@
                 PatientDto.Department = Patient?.Department ?? "";
                 PatientDto.Hometel = Patient?.Hometel ?? "";
                 PatientDto.Hn = Patient?.Hn ?? "";
+                Hn = Patient?.Hn ?? "";
           
             
+            Pttypeno = await http.GetFromJsonAsync<Pttypeno>("http://localhost:5200/Pt/"+ Hn);
+                PttypenoDto.Hn = Pttypeno?.Hn ?? "";
+                PttypenoDto.Pttype = Pttypeno?.Pttype ?? "";
+                PttypenoDto.Name = Pttypeno?.Name ?? "";
+                PttypenoDto.Begindate = Pttypeno?.Begindate;
+                PttypenoDto.Expiredate = Pttypeno?.Expiredate;
+                PttypenoDto.Hospmain = Pttypeno?.Hospmain ?? "";
+                PttypenoDto.Hname = Pttypeno?.Hname ?? "";
+
+                
 
             
             @* Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/api/Hos/" + Id);
