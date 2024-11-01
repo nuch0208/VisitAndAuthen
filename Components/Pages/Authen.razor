@@ -1,13 +1,15 @@
 @page "/authen"
 @using System.Text.Json.Nodes
 @using VisitAndAuthen.Models
+@using VisitAndAuthen.Components.Shared
+
 @inject HttpClient http
 
 
 <div class="row">
     <div class="col-lg-8">
         <h1 class="mb-5">Authen</h1>
-
+        <Alert @ref="alert" />
         @if (AuthenClaim == null)
         {
             <p><em>Loading...</em></p>
@@ -17,13 +19,19 @@
              <div class="row mb-3">
                 <label class="col-md-4 col-form-label">เลขประจำตัวประชาชน</label>
                 <div class="col-md-8">
-                    <input class="form-control-plaintext" @bind="PatientDto.Cid">
+                    <input class="form-control-plaintext" @bind="claim.Cid">
+                </div>
+            </div> 
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">CorrelationId</label>
+                <div class="col-md-8">
+                    <input class="form-control-plaintext" @bind="claim.CorrelationId">
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-md-4 col-form-label">HN : </label>
                 <div class="col-md-8">
-                    <input class="form-control" @bind="PatientDto.Hn">
+                    <input class="form-control" @bind="claim.Hn">
                 </div>
             </div>
             <div class="row mb-3">
@@ -41,7 +49,7 @@
              <div class="row mb-3">
                 <label class="col-md-4 col-form-label">เบอร์โทรศัพท์</label>
                 <div class="col-md-8">
-                    <input class="form-control" @bind="PatientDto.Hometel">
+                    <input class="form-control" @bind="claim.Hometel">
                 </div>
             </div>
 
@@ -94,7 +102,7 @@
 
             <div class="row">
                 <div class="offset-md-4 col-md-4 d-grid">
-                    <button class="btn btn-primary" >Submit</button>
+                    <button class="btn btn-primary" @onclick="SaveClaim">Submit</button>
                 </div>
                 <div class="col-md-4 d-grid">
                     <a class="btn btn-outline-primary" href="/Clients">Cancel</a>
@@ -109,9 +117,10 @@
     @* [Parameter] *@
     @* public string Id { set; get; } *@
     public string Hn { set; get; } 
-    public string Id = "1749900786027";
+    public string Id { set; get; } 
     public Patient? Patient { get; set; }
     public PatientDto PatientDto { set; get; } = new();
+    public Claim claim { set; get; } = new();
     public AuthenClaim? AuthenClaim { get; set; }
     public AuthenClaimDto AuthenClaimDto { set; get; } = new();
     public Pttypeno? Pttypeno { get; set; }
@@ -121,25 +130,18 @@
     public JsonNode Errors { set; get;} = new JsonObject();
     private Cid2 Cid2 = new Cid2();
     
-
+    private Alert alert;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            @* Cid2 = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
-                PatientDto.Cid = Cid2.pid;
-                PatientDto.correlationId = Cid2.correlationId;
-                Id = Cid2.pid; *@
+            Cid2 = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
+                Id = Cid2.pid;
+                claim.Cid = Cid2.pid;
+                claim.CorrelationId = Cid2.correlationId;
 
-            AuthenClaim = await http.GetFromJsonAsync<AuthenClaim>("http://localhost:8189/api/nhso-service/latest-authen-code/" + Id);
-                AuthenClaimDto.ClaimCode = AuthenClaim?.ClaimCode ?? "";
-                AuthenClaimDto.ClaimType = AuthenClaim?.ClaimType ?? "";
-                AuthenClaimDto.CheckDate = AuthenClaim.CheckDate;
-                AuthenClaimDto.ClaimDateTime = AuthenClaim.ClaimDateTime;
-                AuthenClaimDto.Hcode = AuthenClaim?.Hcode ??"";           
-
-            Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/app/" + Id);
+             Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/app/" + Id);
                 PatientDto.Fname = Patient?.Fname ?? ""; 
                 PatientDto.Lname = Patient?.Lname ?? "";
                 PatientDto.DoctorName = Patient?.DoctorName ?? "";
@@ -148,23 +150,26 @@
                 PatientDto.NextTime = Patient?.NextTime;
                 PatientDto.Vn = Patient?.Vn ?? "";
                 PatientDto.Department = Patient?.Department ?? "";
-                PatientDto.Hometel = Patient?.Hometel ?? "";
-                PatientDto.Hn = Patient?.Hn ?? "";
+                claim.Hometel = Patient?.Hometel ?? "";
+                claim.Hn = Patient?.Hn ?? "";
                 Hn = Patient?.Hn ?? "";
-          
-            
+                
             Pttypeno = await http.GetFromJsonAsync<Pttypeno>("http://localhost:5200/Pt/"+ Hn);
                 PttypenoDto.Hn = Pttypeno?.Hn ?? "";
                 PttypenoDto.Pttype = Pttypeno?.Pttype ?? "";
                 PttypenoDto.Name = Pttypeno?.Name ?? "";
-                PttypenoDto.Hospmain = Pttypeno?.Hospmain ?? "";
+                claim.Hcode = Pttypeno?.Hospmain ?? "";
                 PttypenoDto.Begindate = Pttypeno?.Begindate;
                 PttypenoDto.Expiredate = Pttypeno?.Expiredate;
-                PttypenoDto.Hospmain = Pttypeno?.Hospmain ?? "";
                 PttypenoDto.Hname = Pttypeno?.Hname ?? "";
 
-                
-
+            AuthenClaim = await http.GetFromJsonAsync<AuthenClaim>("http://localhost:8189/api/nhso-service/latest-authen-code/" + Id);
+                AuthenClaimDto.ClaimCode = AuthenClaim?.ClaimCode ?? "";
+                AuthenClaimDto.ClaimType = AuthenClaim?.ClaimType ?? "";
+                AuthenClaimDto.CheckDate = AuthenClaim.CheckDate;
+                AuthenClaimDto.ClaimDateTime = AuthenClaim.ClaimDateTime;
+                AuthenClaimDto.Hcode = AuthenClaim?.Hcode ??"";           
+          
             
             @* Patient = await http.GetFromJsonAsync<Patient>("http://localhost:5200/api/Hos/" + Id);
             PatientDto.Hn = Patient?.Hn ?? "";
@@ -182,4 +187,38 @@
             Console.WriteLine("Error occurred: " + ex.Message);
         }
     }
+
+    protected async Task SaveClaim()
+    {
+        var response = await http.PostAsJsonAsync("http://localhost:8189/api/nhso-service/confirm-save", PatientDto);
+        var response2 = await http.PostAsJsonAsync("http://localhost:5200/api/Hos", PatientDto);
+        var checkClaimCode = await http.GetFromJsonAsync<AuthenClaim>($"http://localhost:8189/api/nhso-service/latest-authen-code/{Cid2.pid}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            //navManager.NavigateTo("/");
+            alert.ShowSuccess("เลข ClaimType ของคุณคือ " + checkClaimCode?.ClaimCode);
+            @* alert.ShowSuccess("เลขคิวของคุณคือ " + checkClaimCode?.ClaimCode); *@
+            return;
+        }
+        else
+        {
+            var strResponse = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Json Response: \n" + strResponse);
+
+            try
+            {
+                //var jsonResponse = JsonNode.Parse(strResponse);
+                //Errors = jsonResponse?["errors"] ?? new JsonObject();
+                alert.ShowFailed("กรุณากรอกข้อมูลให้ครบและถูกต้องตามรูปแบบ");
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine("Exception : " + ex.Message);
+                alert.ShowFailed("กรุณากรอกข้อมูลให้ครบและถูกต้องตามรูปแบบ");
+            }
+        }
+    }
+
+
 }

@@ -1,0 +1,38 @@
+@page "/age-calculator"
+
+<h3>Age Calculator</h3>
+
+<div>
+    <label for="birthDate">Enter your birthdate:</label>
+    <input type="date" @bind="BirthDate" id="birthDate" />
+    <button @onclick="CalculateAge">Calculate Age</button>
+</div>
+
+<p>Your age is: @Age</p>
+
+@code {
+    private DateTime? BirthDate { get; set; }
+    private int Age { get; set; }
+
+    
+
+    private void CalculateAge()
+    {
+        if (BirthDate.HasValue)
+        {
+            var today = DateTime.Today;
+            Age = today.Year - BirthDate.Value.Year;
+
+            // Check if the birthday hasn't occurred yet this year
+            if (today < BirthDate.Value.AddYears(Age))
+            {
+                Age--;
+            }
+        }
+        else
+        {
+            
+            Age = 0; // Default if no birthdate is entered
+        }
+    }
+}
